@@ -9,7 +9,7 @@ class Merchant_model extends CI_Model
 
     public function merchant_insert($data)
     {
-        $this->db->insert('merchant', $data);
+        $this->db->insert('users', $data);
         return true;
     }
      public function add_documents($data)
@@ -62,7 +62,7 @@ class Merchant_model extends CI_Model
     public function  check_merchant($mobile_no)
     {
     	$this->db->where('mobile_no',$mobile_no);
-        $this -> db -> from('merchant');
+        $this -> db -> from('users');
         $query = $this -> db -> get();
         return $query->result();
     }
