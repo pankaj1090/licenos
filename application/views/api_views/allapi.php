@@ -20,12 +20,7 @@
     <h3>Section 1</h3>
     <div>
         <p><a href="<?php echo base_url('Apidetails/signup'); ?>">Signup</a></p>
-        <p><a href="<?php echo base_url('Apidetails/login'); ?>">Login</a></p>
-        <p><a href="<?php echo base_url('Apidetails/add_documents'); ?>">add_documents</a></p>   
-        <p><a href="<?php echo base_url('Apidetails/get_documents'); ?>">get_documents</a></p> 
-        <p><a href="<?php echo base_url('Apidetails/delete_documents'); ?>">delete_documents</a></p>   
-        <p><a href="<?php echo base_url('Apidetails/forget_password'); ?>">forget_password</a></p> 
-        <p><a href="<?php echo base_url('Apidetails/update_password'); ?>">update_password</a></p>  
+        <p><a href="<?php echo base_url('Apidetails/send_otp'); ?>">send_otp</a></p> 
 </div>
 </body>
 </html>

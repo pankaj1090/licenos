@@ -59,9 +59,8 @@ class Merchant_model extends CI_Model
         $query = $this -> db -> get();
         return $query->result();
     }
-    public function  check_merchant($email,$mobile_no)
+    public function  check_merchant($mobile_no)
     {
-    	$this->db->where('email',$email);
     	$this->db->where('mobile_no',$mobile_no);
         $this -> db -> from('merchant');
         $query = $this -> db -> get();

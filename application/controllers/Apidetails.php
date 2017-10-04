@@ -20,6 +20,11 @@ class Apidetails extends CI_Controller
 
     }
 
+ public function send_otp()
+    {
+        $this ->load ->view('api_views/send_otp.php');
+
+    }
     public function delete_documents()
     {
         $this ->load ->view('api_views/delete_documents.php');

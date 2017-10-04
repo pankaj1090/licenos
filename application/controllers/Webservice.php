@@ -9,6 +9,7 @@ class Webservice extends CI_Controller
         $this -> load -> library('session');
         $this -> load -> helper('form');
         $this -> load -> helper('url');
+        $this -> load -> helper('new_helper');
         $this -> load -> database();
         $this -> load -> library('form_validation');
         $this -> load -> model('Login_model');
@@ -20,43 +21,21 @@ class Webservice extends CI_Controller
      public function signup_api()
      {
          $fullname=$this->input->post('fullname');
-         $email=$this->input->post('email');
          $mobile_no=$this->input->post('mobile_no');
 
-         $password=$this->input->post('password');
-         $image=$this->input->post('image');
-         // print_r($file);
-         $this->load->library('upload');
-         $check_user=$this->Merchant_model->check_merchant($email, $mobile_no);
+
+
+         $check_user=$this->Merchant_model->check_merchant($mobile_no);
 //check email already exists or not 
          if(!$check_user)
          {
 
-         $config['upload_path']   = './assets/images/'; 
-         $config['allowed_types'] = 'gif|jpg|jpeg|png';
-         $config['max_size']      = 10000; 
-         $config['file_name']     = time().$fullname;
-         $this->upload->initialize($config);
-         $uploaddocument="";
-         if ( $this->upload->do_upload('image'))
-         {
-            // echo " uploaded";
-             $uploaddocument='assets/images/'.$this->upload->data('file_name'); 
-         } 
-         else   {
-//            echo $this->upload->display_errors();
-                }
-
          $data['fullname']=$fullname;
-         $data['email']=$email;
          $data['mobile_no']=$mobile_no;
-         $data['password']=md5($password);
-         $data['image']=$uploaddocument;
 
          if(  $this->Merchant_model->merchant_insert($data))
          {
-                        $data['image']= $uploaddocument?base_url($uploaddocument):"";
-                    $raw_data=array('status'=>"true",
+            $raw_data=array('status'=>"true",
                                      'message'=>"Your Registration is Success",
                                      "data" =>   $data
                                         );
@@ -73,7 +52,7 @@ class Webservice extends CI_Controller
      else
      {
         $raw_data=array('status'=>"false",
-                                     'message'=>"Email or Mobile No. Already Exist",
+                                     'message'=>"Mobile No. Already Exist",
                                      "data" => ""
                                         );
 
@@ -81,6 +60,31 @@ class Webservice extends CI_Controller
           header('Content-Type: application/json'); 
          echo json_encode($raw_data);
      }
+ public function send_otp() 
+  {         
+     $mobile = $this->input->post('mobile', TRUE); 
+     $otp = $this->input->post('otp', TRUE); 
+     $space = " ";
+     //Load email library 
+      $data['mobile']= $mobile;
+      $data['otp']= $otp;
+    if(!$check_user=$this->Merchant_model->check_merchant($mobile))
+      {
+        send_opt_mobile($mobile, $otp);
+         
+           //$this->session->set_flashdata("email_sent","Email sent successfully.");
+          $arr = array('status' => 'true', 'message' => 'OTP send successfully.'); 
+       header('Content-Type: application/json');      
+         echo json_encode($arr);
+       }           
+       else 
+       {
+         $arr = array('status' => 'false', 'message' => 'Email id or Mobile No. already registered'); 
+       header('Content-Type: application/json');      
+       echo json_encode($arr);
+       }
+   }
+   
      public function login_api()
      {
          $email=$this->input->post('email');
